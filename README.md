@@ -85,8 +85,8 @@ Open `server` folder
     1. Data privacy (use wireshark)
     2. Data poisonning (see how clientMQTT in `server/clientMQTT.py` handle topic reply)
 4. Fix issues found in part 3:
-    1. Privacy security -> Payload encryption
-    2. Data poisonning -> User authentification
+    1. Data poisonning -> User authentification
+    2. Privacy security -> Payload encryption
     
 # Usage guide
 Access the server on http:myIPAdress:80/ -> replace **myIPAdress by your IP address**
