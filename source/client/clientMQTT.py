@@ -39,6 +39,7 @@
 import logging
 from datetime import datetime
 from time import sleep as time_sleep
+from json import loads as json_loads, dumps as json_dumps
 
 import paho.mqtt.client as mqtt
 
@@ -46,38 +47,42 @@ logger = logging.getLogger(__name__)
 
 
 class Client:
-    def __init__(self, server_hostname, server_port, prefix_topic):
+    def __init__(self, broker_hostname, broker_port, prefix_topic):
         """
         Create a client to send message to a server
-        :param server_hostname: Server IP to connect
-        :param server_port: Server port to connect
+        :param broker_hostname: Broker hostname to connect
+        :param broker_port: Broker port to connect
         """
         self.client = mqtt.Client()
-        self.server_hostname = server_hostname
-        self.server_port = server_port
+        self.broker_hostname = broker_hostname
+        self.broker_port = broker_port
         self.prefix_topic = prefix_topic
         self.echo_hello = "echo_hello"
         self.reply_hello = "reply_hello"
 
     def connect(self):
         """
-        Connect to a server
+        Connect to a broker
         """
-        self.client.connect(self.server_hostname, self.server_port)
-        logger.info("Connected to broker {}:{}".format(self.server_hostname, self.server_port))
+        self.client.connect(self.broker_hostname, self.broker_port)
+        logger.info("Connected to broker {}:{}".format(self.broker_hostname, self.broker_port))
         self.subscribe_to_one_topic(self.echo_hello, self.__on_echo_hello_message)
         self.client.loop_start()
         time_sleep(4)
 
     def send_message(self, topic, message):
         """
-        Send a message to the server
-        :param topic: the topic that the will message should be published on
+        Send a message to the broker
         :param message: the message to send
         """
-        self.client.publish(self.prefix_topic + topic, message)
-        logger.info("Datetime: {}\nMessage sent on topic : {}".format(datetime.now().replace(microsecond=0), topic))
-        logger.debug("Message: {}".format(message))
+        try:
+            message_send = json_dumps({"message": message, "datetime": str(datetime.now().replace(microsecond=0))})
+            self.client.publish(self.prefix_topic + topic, message_send)
+            logger.info("Datetime: {}\nMessage sent on topic : {}".format(datetime.now().replace(microsecond=0), topic))
+            logger.debug("Message: {}".format(json_loads(message_send)))
+        except Exception as e:
+            logger.error("Something wrent wrong when it try to send the message")
+            logger.debug("{}".format(e))
 
     def __on_echo_hello_message(self, client, userdata, message):
         """
@@ -96,18 +101,19 @@ class Client:
     @staticmethod
     def __read_message(message):
         """
-        Read MQTT message
+        Read MQTT JSON message
         :param message:An instance of MQTT message
-        :return: Dictionnarie with message, topic, qos and flag
+        :return: Dictionnarie with message, message datetime emission, topic, qos and flag
         """
-        message_received = str(message.payload.decode("utf-8", "ignore"))
+        # message_received = str(message.payload.decode("utf-8", "ignore"))
+        message_received = json_loads(message.payload)
         topic = message.topic
         qos = message.qos
         flag = message.retain
         logger.info("Datetime: {}\nMessage received on topic: {}".format(datetime.now().replace(microsecond=0), topic))
         logger.debug(
             "message : {}\nqos: {}\nflag: {}\n".format(message_received, qos, flag))
-        return {"message": message_received, "topic": topic, "qos": qos, "flag": flag}
+        return {"message": message_received["message"], "topic": topic, "datetime": message_received["datetime"], "qos": qos, "flag": flag}
 
     def subscribe_to_one_topic(self, topic, callback):
         """

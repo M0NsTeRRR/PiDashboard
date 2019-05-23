@@ -40,7 +40,7 @@ import logging
 from threading import Thread
 from datetime import datetime, timedelta
 from time import sleep as time_sleep
-
+from json import loads as json_loads, dumps as json_dumps
 
 import paho.mqtt.client as mqtt
 
@@ -52,15 +52,19 @@ logger = logging.getLogger(__name__)
 
 
 class Client(Thread):
-    def __init__(self, server_hostname, server_port, prefix_topic, led, temperature, phone_alert):
+    def __init__(self, broker_hostname, broker_port, prefix_topic, led, temperature, phone_alert):
         """
-        Create a client to send message to a server
-        :param server_hostname: Server IP to connect
-        :param server_port: Server port to connect
+        Create a client to send message to a broker
+        :param broker_hostname: Broker hostname to connect
+        :param broker_port: Broker port to connect
+        :param prefix_topic: MQTT prefix topic used
+        :param led: dictionnary where are saved leds informations
+        :param temperature: list where are saved temperature informations
+        :param phone_alert: dictionnary where are saved phone alert informations
         """
         Thread.__init__(self)
-        self.server_hostname = server_hostname
-        self.server_port = server_port
+        self.broker_hostname = broker_hostname
+        self.broker_port = broker_port
         self.prefix_topic = prefix_topic
         self.echo_hello = "echo_hello"
         self.reply_hello = "reply_hello"
@@ -76,10 +80,10 @@ class Client(Thread):
 
     def connect(self):
         """
-        Connect to a server
+        Connect to a broker
         """
-        self.client.connect(self.server_hostname, self.server_port)
-        logger.info("Connected to broker {}:{}".format(self.server_hostname, self.server_port))
+        self.client.connect(self.broker_hostname, self.broker_port)
+        logger.info("Connected to broker {}:{}".format(self.broker_hostname, self.broker_port))
         self.subscribe_to_one_topic(self.reply_hello, self.__on_reply_hello_message)
         self.subscribe_to_one_topic(self.led_topic, self.__on_led_message)
         self.subscribe_to_one_topic(self.temperature_topic, self.__on_temperature_message)
@@ -89,12 +93,17 @@ class Client(Thread):
 
     def send_message(self, topic, message):
         """
-        Send a message to the server
+        Send a message to the broker
         :param message: the message to send
         """
-        self.client.publish(self.prefix_topic + topic, message)
-        logger.info("Datetime: {}\nMessage sent on topic : {}".format(datetime.now().replace(microsecond=0), topic))
-        logger.debug("Message: {}".format(message))
+        try:
+            message_send = json_dumps({"message": message, "datetime": str(datetime.now().replace(microsecond=0))})
+            self.client.publish(self.prefix_topic + topic, message_send)
+            logger.info("Datetime: {}\nMessage sent on topic : {}".format(datetime.now().replace(microsecond=0), topic))
+            logger.debug("Message: {}".format(json_loads(message_send)))
+        except Exception as e:
+            logger.error("Something wrent wrong when it try to send the message")
+            logger.debug("{}".format(e))
 
     def run(self):
         while True:
@@ -147,10 +156,10 @@ class Client(Thread):
         try:
             message = self.__read_message(message)
             if -20 <= float(message["message"]) <= 50:
-                self.temperature["datetime"].append(datetime.now().replace(microsecond=0).strftime("%Y-%m-%d %H:%M:%S"))
+                self.temperature["datetime"].append(message["datetime"])
                 self.temperature["value"].append(message["message"])
                 if float(message["message"]) > float(self.phone_alert["treshold"]):
-                    self.send_sms('PiDashboard WARNING : Threshold has been crossed with {}°C ({})'.format(message["message"], datetime.now().replace(microsecond=0).strftime("%Y-%m-%d %H:%M:%S")))
+                    self.send_sms('PiDashboard WARNING : Threshold has been crossed with {}°C ({})'.format(message["message"], message["datetime"]))
             else:
                 logger.error("Invalid value received".format(message["message"]))
         except TwilioRestException as e:
@@ -163,18 +172,19 @@ class Client(Thread):
     @staticmethod
     def __read_message(message):
         """
-        Read MQTT message
+        Read MQTT JSON message
         :param message:An instance of MQTT message
-        :return: Dictionnarie with message, topic, qos and flag
+        :return: Dictionnarie with message, message datetime emission, topic, qos and flag
         """
-        message_received = str(message.payload.decode("utf-8", "ignore"))
+        # message_received = str(message.payload.decode("utf-8", "ignore"))
+        message_received = json_loads(message.payload)
         topic = message.topic
         qos = message.qos
         flag = message.retain
         logger.info("Datetime: {}\nMessage received on topic: {}".format(datetime.now().replace(microsecond=0), topic))
         logger.debug(
             "message : {}\nqos: {}\nflag: {}\n".format(message_received, qos, flag))
-        return {"message": message_received, "topic": topic, "qos": qos, "flag": flag}
+        return {"message": message_received["message"], "topic": topic, "datetime": message_received["datetime"], "qos": qos, "flag": flag}
 
     def subscribe_to_one_topic(self, topic, callback):
         """
