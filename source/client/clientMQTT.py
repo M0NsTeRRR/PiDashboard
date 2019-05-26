@@ -105,7 +105,6 @@ class Client:
         :param message:An instance of MQTT message
         :return: Dictionnarie with message, message datetime emission, topic, qos and flag
         """
-        # message_received = str(message.payload.decode("utf-8", "ignore"))
         message_received = json_loads(message.payload)
         topic = message.topic
         qos = message.qos

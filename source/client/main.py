@@ -84,6 +84,7 @@ try:
     while True:
         for i in ["-12", "8", "15", "42","4", "11", "11", "-2"]:
             clientMQTT.send_message("temperature", i)
+            clientMQTT.send_message("led/salon", "ON")
             time_sleep(1)
 except Exception as e:
     logger.error('Something wrong happened : \n{}'.format(e))

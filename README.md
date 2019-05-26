@@ -103,4 +103,5 @@ Copyright © Ludovic Ortega, 2019
 
 Contributor(s):
 
--Ortega Ludovic - ludovic.ortega@lyon-esport.fr
+-Ortega Ludovic - mastership@hotmail.fr
+-Denis Genon-Catalot - Denis.Genon-Catalot@iut-valence.fr
