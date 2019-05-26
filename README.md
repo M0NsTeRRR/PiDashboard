@@ -1,7 +1,7 @@
 [EDUCATIONAL PROJECT]
 1. Introduction
 
-    The goal of this pedacogical project is to display some I/O (Led status and analog temperature) produce par Raspberry PI (type Raspberry PI 3B ) as client to a website server. 
+    The goal of this pedacogical project is to display some I/O (Led status and analog temperature) produce by Raspberry PI module (ref Raspberry PI 3B as least) as client to a website server. 
     The client can be everykind of hardware module (Raspberry pi, Arduino etc...)  
 
 2. Usage
