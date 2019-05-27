@@ -62,7 +62,7 @@ You have some informations and advices in Dev section.
 2. Set environment variable `set FLASK_APP_main.py`
 3. Start the program `flask run`
 
-#Dev
+# Dev
 **Replace `pass` line 85 with your code**
 1. Send Led state change
     1. You need to read the input of the button when change state occurs (change ON to OFF and OFF to ON)
