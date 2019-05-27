@@ -38,12 +38,12 @@ You have some informations and advices in Dev section.
 * broker MQTT
 
 # Install
-###Client
+### Client
 1. Open `client` folder
 2. Install requirements `pip install -r requirements.txt`
 3. Fill `config.yml` with your broker MQQT port and IP
 
-###Server
+### Server
 1. Open `server` folder
 2. Install requirements `pip install -r requirements.txt`
 3. Fill `config.yml` with :
@@ -53,21 +53,14 @@ You have some informations and advices in Dev section.
     #####LINUX ONLY (install gunicorn)
 4. `pip install gunicorn`
 # Start
-###Client
+### Client
 1. Open `client` folder
 2. Start the program `python main.py` 
 
-###Server
-Open `server` folder
-
-**It's recommended to use the server on linux because windows will use the development server**
-
-#####Windows
-1. Set environment variable `set FLASK_APP_main.py`
-2. Start the program `flask run`
-
-#####Linux
-1. Start the program `gunicorn main:app --bind 0.0.0.0:80`
+### Server
+1. Open `server` folder
+2. Set environment variable `set FLASK_APP_main.py`
+3. Start the program `flask run`
 
 #Dev
 **Replace `pass` line 85 with your code**
