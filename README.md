@@ -50,8 +50,7 @@ You have some informations and advices in Dev section.
     - your broker MQQT port and IP
     - your twilio account sid, auth_token and phone number
     - your phone number
-    #####LINUX ONLY (install gunicorn)
-4. `pip install gunicorn`
+
 # Start
 ### Client
 1. Open `client` folder
