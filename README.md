@@ -39,30 +39,30 @@ You have some informations and advices in Dev section.
 
 # Install
 ### Client
-1. Open `client` folder
+1. Open a terminal in `client` folder
 2. Install requirements `pip install -r requirements.txt`
-3. Fill `config.yml` with your broker MQQT port and IP
+3. Edit `config.yml` with your broker MQQT port and IP
 
 ### Server
-1. Open `server` folder
+1. Open a terminal in `server` folder
 2. Install requirements `pip install -r requirements.txt`
-3. Fill `config.yml` with :
+3. Edit `config.yml` with :
     - your broker MQQT port and IP
     - your twilio account sid, auth_token and phone number
     - your phone number
 
 # Start
 ### Client
-1. Open `client` folder
+1. Open a terminal in `client` folder
 2. Start the program `python main.py` 
 
 ### Server
-1. Open `server` folder
-2. Set environment variable `set FLASK_APP_main.py`
+1. Open a terminal in `server` folder
+2. Set environment variable Linux `export FLASK_APP=main.py` / Windows : `set FLASK_APP=main.py` 
 3. Start the program `flask run`
 
 # Dev
-**Replace `pass` line 85 with your code**
+**Replace `pass` line 86 with your code in `client/main.py`**
 1. Send Led state change
     1. You need to read the input of the button when change state occurs (change ON to OFF and OFF to ON)
     2. Send the change state by using clientMQTT object with `send_message(topic, message)` method -> `clientMQTT.send_message("led/led_garage", "ON")`
@@ -96,4 +96,4 @@ Copyright © Ludovic Ortega, 2019
 Contributor(s):
 
 -Ortega Ludovic - mastership@hotmail.fr
--Denis Genon-Catalot - Denis.Genon-Catalot@iut-valence.fr
+-Denis Genon-Catalot - denis.genon-catalot@univ-grenoble-alpes.fr

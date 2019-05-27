@@ -3,6 +3,7 @@
 #
 # Contributeur(s):
 #     * Ortega Ludovic - mastership@hotmail.fr
+#     * Denis Genon-Catalot - denis.genon-catalot@univ-grenoble-alpes.fr
 #
 # Ce logiciel, PiDashboard, est un programme informatique à but éducatif.
 # Il a été developpé spécialement pour des travaux pratiques sur l'IoT et
@@ -82,10 +83,8 @@ try:
     clientMQTT = Client(brokerMQTT["hostname"], brokerMQTT["port"], PREFIX_TOPIC)
     clientMQTT.connect()
     while True:
-        for i in ["-12", "8", "15", "42","4", "11", "11", "-2"]:
-            clientMQTT.send_message("temperature", i)
-            clientMQTT.send_message("led/salon", "ON")
-            time_sleep(1)
+        pass
+
 except Exception as e:
     logger.error('Something wrong happened : \n{}'.format(e))
     sys_exit(1)

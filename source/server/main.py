@@ -3,6 +3,7 @@
 #
 # Contributeur(s):
 #     * Ortega Ludovic - mastership@hotmail.fr
+#     * Denis Genon-Catalot - denis.genon-catalot@univ-grenoble-alpes.fr
 #
 # Ce logiciel, PiDashboard, est un programme informatique à but éducatif.
 # Il a été developpé spécialement pour des travaux pratiques sur l'IoT et
