@@ -83,8 +83,9 @@ try:
     clientMQTT = Client(brokerMQTT["hostname"], brokerMQTT["port"], PREFIX_TOPIC)
     clientMQTT.connect()
     while True:
-        clientMQTT.send_message("temperature", "40")
-        clientMQTT.send_message("led/salon", "ON")
+        # get the temperature value and assign it to the temperature variable
+        temperature = "30"
+        clientMQTT.send_message("temperature", temperature)
         time_sleep(1)
 
 except Exception as e:

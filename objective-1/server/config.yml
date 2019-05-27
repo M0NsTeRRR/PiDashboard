@@ -1,0 +1,9 @@
+brokerMQTT:
+  hostname: "iot.eclipse.org"
+  port: 1883
+twilio:
+  phone_number: ""
+  account_sid: ""
+  auth_token: ""
+user:
+  phone_number: ""

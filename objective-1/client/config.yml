@@ -1,0 +1,3 @@
+brokerMQTT:
+  hostname: "iot.eclipse.org"
+  port: 1883

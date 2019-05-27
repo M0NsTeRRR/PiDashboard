@@ -1,0 +1,51 @@
+<html>
+    <head>
+        {% block headers %}
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>PiDashboard</title>
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.min.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+            <script defer src="{{ url_for('static', filename='js/fontawesome.min.js') }}"></script>
+            <script defer src="{{ url_for('static', filename='js/bulma.js') }}"></script>
+        {% endblock %}
+    </head>
+    <body>
+        <div class="page-wrap">
+            {% block navbar %}
+                <nav class="navbar is-dark">
+                    <div class="navbar-brand">
+                        <div class="navbar-burger burger is-dark" data-target="navMenubd">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <div id="navMenubd" class="navbar-menu">
+                        <div class="navbar-start">
+                            <a class="navbar-item {{ active.index }}" href="{{ url_for('index') }}">
+                                <span class="icon has-text-white"><i class="fas fa-home"></i></span>&nbsp;Index
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+                <br>
+            {% endblock %}
+            {% block body %}
+            {% endblock %}
+        </div>
+        <br>
+        {% block footer %}
+            <footer class="footer site-footer has-background-dark has-text-white">
+                <div class="content has-text-centered">
+                    <p>
+                        PiDashboard is published under license <strong class="has-text-white">CeCILL v2.1</strong><a href="https://github.com/M0NsTeRRR/TemperaturePiListener" target="blank"><span class="icon has-text-white"><i class="fab fa-github"></i></span></a><br>
+                        Copyright © <strong class="has-text-white">Ludovic Ortega </strong><a href="https://twitter.com/MoNsTeRRR_CSGO" target="blank"><span class="icon has-text-info"><i class="fab fa-twitter"></i></span></a> - 2019<br>
+                        Developped with <span class="icon has-text-danger"><i class="fas fa-heart"></i></span> for his favourite teacher <span class="icon has-text-warning"><i class="fas fa-grin-squint"></i></span><strong class="has-text-white"> Denis Genon-Catalot</strong>
+                    </p>
+                </div>
+            </footer>
+        {% endblock %}
+    </body>
+</html>

@@ -69,7 +69,7 @@ You have some informations and advices in Dev section.
         1. topic = `led/<led_name>`, replace <led_name> by the name of your choice
         2. message = `ÒN` or `OFF`
 2. Send temperature information every second
-    1. You need to read the temprature every each second (`time.sleep(1)`)
+    1. You need to read the temprature every each second (`time_sleep(1)`)
     2. Send the change state by using clientMQTT object with `send_message(topic, message)` method -> `clientMQTT.send_message("led/led_garage", "ON")`
         1. topic = `led/<led_name>`, replace <led_name> by the name of your choice
         2. message = `ÒN` or `OFF` 
@@ -78,7 +78,7 @@ You have some informations and advices in Dev section.
     2. Data poisonning (see how clientMQTT in `server/clientMQTT.py` handle topic reply)
 4. Fix issues found in part 3:
     1. Data poisonning -> User authentification
-    2. Privacy security -> Payload encryption
+    2. Data privacy -> Payload encryption
     
 # Usage guide
 Access the server on http:myIPAdress:80/ -> replace **myIPAdress by your IP address**

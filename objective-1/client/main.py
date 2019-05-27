@@ -83,8 +83,11 @@ try:
     clientMQTT = Client(brokerMQTT["hostname"], brokerMQTT["port"], PREFIX_TOPIC)
     clientMQTT.connect()
     while True:
-        clientMQTT.send_message("temperature", "40")
-        clientMQTT.send_message("led/salon", "ON")
+        # replace the value of led_name with the name of the led
+        led_name = "salon"
+        # get the led state and assign it to the led_state variable
+        led_state = "ON"
+        clientMQTT.send_message("led/" + led_name, led_state)
         time_sleep(1)
 
 except Exception as e:

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block headers %}
+    {{ super() }}
+    <script defer src="{{ url_for('static', filename='js/Chart.bundle.js') }}" xmlns="http://www.w3.org/1999/html"
+            xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"></script>
+    <script defer src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
+{% block body %}
+<div class="container is-fluid">
+    <div class="columns">
+        <div class="column is-one-quarter-desktop is-one-third-tablet is-12-mobile">
+            <article class="message is-info">
+                <div class="message-header">
+                    <h2 class="subtitle has-text-white"><span class="icon has-text-white"><i class="fas fa-info-circle"></i></span>&nbsp;Informations</h2>
+                </div>
+                <div class="message-body">
+                    <div class="tags has-addons">
+                      <span class="tag is-dark is-medium"><span class="icon has-text-danger"><i class="fas fa-heart-broken"></i></span>&nbsp;HEALTH</span>
+                      <span id="informations-health" class="tag {% if health == 'DOWN' %} is-danger {% else %} is-success {% endif %}is-medium">{{ health }}</span>
+                    </div>
+                    <div class="tags has-addons">
+                      <span class="tag is-dark is-medium"><span class="icon has-text-info"><i class="fas fa-hourglass-half"></i></span>&nbsp;UPTIME</span>
+                      <span id="informations-uptime" class="tag {% if uptime == "UNKNOW" %} is-danger {% else %} is-info {% endif %} is-medium">{{ uptime }}</span>
+                    </div>
+                    <div class="tags has-addons">
+                      <span class="tag is-dark is-medium"><span class="icon has-text-info"><i class="fas fa-clock"></i></span>&nbsp;REFRESH</span>
+                      <span id="informations-refresh" class="tag {% if refresh == "UNKNOW" %} is-danger {% else %} is-info {% endif %} is-medium">{{ refresh }}s</span>
+                    </div>
+                    <div class="tags has-addons">
+                      <span class="tag is-dark is-medium"><span class="icon has-text-info"><i class="fas fa-phone"></i></span>&nbsp;PHONE</span>
+                      <span id="informations-phone" class="tag {% if phone_alert.phone_number == "UNKNOW" %} is-danger {% else %} is-info {% endif %} is-medium">{{ phone_alert.user.phone_number }}</span>
+                    </div>
+                </div>
+            </article>
+            <br>
+            <article class="message is-dark">
+                <div class="message-header">
+                    <h2 class="subtitle has-text-white"><span class="icon has-text-white"><i class="fas fa-book-open"></i></span>&nbsp;Others</h2>
+                </div>
+                <div class="message-body has-text-left">
+                    <span>
+                        <h2 class="subtitle">This project uses :</h2>
+                        <ul>
+                            <li class="has-text-weight-semibold">Langage : <span class="has-text-weight-normal is-italic">Python</span></li>
+                            <li class="has-text-weight-semibold">Web microframework : <span class="has-text-weight-normal is-italic">Flask</span></li>
+                            <li class="has-text-weight-semibold">WSGI HTTP Server for UNIX : <span class="has-text-weight-normal is-italic">Gunicorn</span></li>
+                            <li class="has-text-weight-semibold">Template engine : <span class="has-text-weight-normal is-italic">Jinja2</span></li>
+                            <li class="has-text-weight-semibold">CSS framework : <span class="has-text-weight-normal is-italic">Bulma</span></li>
+                            <li class="has-text-weight-semibold">Icon library : <span class="has-text-weight-normal is-italic">Font Awesome</span></li>
+                            <li class="has-text-weight-semibold">Graph library : <span class="has-text-weight-normal is-italic">Chart.js</span></li>
+                            <li class="has-text-weight-semibold">Connectivity protocol : <span class="has-text-weight-normal is-italic">MQTT</span></li>
+                            <li class="has-text-weight-semibold">Cloud communication platform : <span class="has-text-weight-normal is-italic">Twilio</span></li>
+                        </ul>
+                    </span>
+                </div>
+            </article>
+        </div>
+        <br>
+        <div class="column">
+            <article class="message is-primary">
+                <div class="message-header">
+                    <h2 class="subtitle has-text-white"><span class="icon has-text-white"><i class="fas fa-database"></i></span>&nbsp;Data monitoring</h2>
+                </div>
+                <div class="message-body">
+                    <div class="tabs is-toggle is-toggle-rounded is-centered">
+                        <ul>
+                            <li id='led-tab' class="tab is-active has-text-white">
+                                <a style="text-decoration: none;">
+                                    <span class="icon is-small"><i class="fas fa-lightbulb"></i></span>
+                                    <span>Led</span>
+                                </a>
+                            </li>
+                            <li id='temperature-tab' class="tab">
+                                <a style="text-decoration: none;">
+                                    <span class="icon is-small"><i class="fas fa-temperature-high"></i></span>
+                                    <span>Temperature</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="led-tab-content">
+                        <div id="led" class="columns">
+                            <div id="led_column_left" class="column">
+                                {% for key, value in leds.items() %}
+                                    {% if loop.index % 2 != 0 %}
+                                        <div id="led_{{ key }}" class="notification {% if value == "ON" %} is-success {% else %} is-danger {% endif %}">
+                                            <span class="icon is-small"><i class="fas fa-lightbulb"></i></span>&nbsp;<strong>{{ key }}</strong>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div id="led_column_right" class="column is-half">
+                                {% for key, value in leds.items() %}
+                                    {% if loop.index % 2 == 0 %}
+                                        <div id="led_{{ key }}" class="notification {% if value == "ON" %} is-success {% else %} is-danger {% endif %}">
+                                            <span class="icon is-small"><i class="fas fa-lightbulb"></i></span>&nbsp;<strong>{{ key }}</strong>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div id="error-led" class="is-hidden">
+                            <div class="notification is-danger">
+                                <span class="icon is-small"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;<strong>ERROR</strong>&nbsp;<span class="icon is-small"><i class="fas fa-exclamation-triangle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="is-hidden" id="temperature-tab-content">
+                        <h2>What is the max value before alerting ?</h2>
+                        <form method="post" action="{{ url_for('post_temperature_treshold') }}">
+                            <div class="field has-addons has-addons-centered">
+                                <div class="control has-icons-left has-icons-right">
+                                    <div class="field">
+                                        <input class="input is-success" name="temperature_treshold" type="number" value="{{ phone_alert.treshold }}" placeholder="Temperature value" min="-20" max="50">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-temperature-high"></i>
+                                        </span>
+                                        <span class="icon is-small is-right">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <p class="help">Value must be in range [-20;50]</p>
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <button class="button is-success" type="submit">
+                                        <span class="icon">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span>Save</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <canvas id="temperature"></canvas>
+                        <div id="error-temperature" class="is-hidden">
+                            <div class="notification is-danger">
+                                <span class="icon is-small"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;<strong>ERROR</strong>&nbsp;<span class="icon is-small"><i class="fas fa-exclamation-triangle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+{% endblock %}
