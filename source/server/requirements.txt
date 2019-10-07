@@ -9,7 +9,7 @@ MarkupSafe==1.1.1
 paho-mqtt==1.4.0
 PyJWT==1.7.1
 PySocks==1.7.0
-pytz==2019.1
+pytz==2019.3
 PyYAML==5.1.2
 requests==2.22.0
 six==1.12.0
