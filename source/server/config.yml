@@ -1,5 +1,5 @@
 brokerMQTT:
-  hostname: "iot.eclipse.org"
+  hostname: "mqtt.eclipse.org"
   port: 1883
 twilio:
   phone_number: ""

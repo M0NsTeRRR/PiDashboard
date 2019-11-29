@@ -59,7 +59,7 @@ You have some informations and advices in Dev section.
 ### Server
 1. Open a terminal in `server` folder
 2. Set environment variable Linux `export FLASK_APP=main.py` / Windows : `set FLASK_APP=main.py` 
-3. Start the program `flask run`
+3. Start the program `flask run --host 0.0.0.0`
 
 # Dev
 **Replace `pass` line 86 with your code in `client/main.py`**
@@ -81,7 +81,7 @@ You have some informations and advices in Dev section.
     2. Data privacy -> Payload encryption
     
 # Usage guide
-Access the server on http:myIPAdress:80/ -> replace **myIPAdress by your IP address**
+Access the server on http:myIPAdress:5000/ -> replace **myIPAdress by your IP address**
 
 # Licence
 
