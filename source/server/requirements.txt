@@ -13,6 +13,6 @@ pytz==2019.3
 PyYAML==5.2
 requests==2.22.0
 six==1.13.0
-twilio==6.33.1
+twilio==6.35.0
 urllib3==1.25.7
 Werkzeug==0.16.0
