@@ -95,5 +95,5 @@ Copyright © Ludovic Ortega, 2019
 
 Contributor(s):
 
--Ortega Ludovic - mastership@hotmail.fr
+-Ortega Ludovic - ludovic.ortega@adminafk.fr
 -Denis Genon-Catalot - denis.genon-catalot@univ-grenoble-alpes.fr
