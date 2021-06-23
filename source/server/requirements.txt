@@ -7,7 +7,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
 paho-mqtt==1.5.1
-PyJWT==1.7.1
+PyJWT==2.1.0
 PySocks==1.7.1
 pytz==2019.3
 PyYAML==5.4.1
